@@ -142,7 +142,7 @@ async def extract_department_research(department_code, debug_mode=False) -> List
 
 
 # 'public' wrapper. Other files import this function
-async def extract_research_by_department(department_code: str, debug_mode: bool=False, write_to_csv: bool = False) -> None:
+async def extract_research_by_department(department_code: str, debug_mode: bool=False, write_to_csv: bool = False) -> List[Dict]:
     """
     Main function to extract research information for a specific department.
 
@@ -154,7 +154,7 @@ async def extract_research_by_department(department_code: str, debug_mode: bool=
     """
 
     research_info = await extract_department_research(department_code, debug_mode)
-    write_to_db(research_info)
+    # write_to_db(research_info)
     if research_info and write_to_csv:
         csv_writer(research_info, f"research_{department_code}.csv")
     return research_info

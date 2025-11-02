@@ -1,13 +1,16 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import logging
 import os
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
+from shared_utils.db_writer import read_from_db
 
 # Add the services directory to Python path to fix import issues
 
 # Import all extractor functions
 from research_extractor import extract_research_by_department
+from research_extractor import compile_interests
 from events_extractor import extract_events
 from courses_extractor import extract_course
 from shared_utils import csv_writer
@@ -22,6 +25,46 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+
+
+@app.post("/test-post")
+async def test_database(request: dict):
+    """
+    Test database endpoint.
+    
+    Accepts POST data and returns a response with dummy data.
+    Can be tested with curl:
+    
+    curl -X POST "http://localhost:8000/test-database" \\
+         -H "Content-Type: application/json" \\
+         -d '{"name": "John", "action": "test", "value": 123}'
+    """
+
+    
+    return {
+        "message": "Database tested successfully",
+        "received_data": {
+            "name": request.get("name", "No name provided")
+
+        },
+        "test_status": "passed"
+    }
+
+
+@app.get("/test-supabase")
+async def test_supabase():
+    """
+    Test supabase endpoint.
+    """
+    result = read_from_db(table_name="TestTable", limit=1)
+    return result
 
 @app.get("/")
 async def read_root():
@@ -68,7 +111,12 @@ async def extract_research_endpoint(department_code: str):
             raise HTTPException(status_code=404, detail=f"No faculty research data found for department code: {department_code}")
 
         logger.info(f"Successfully extracted {len(research_data)} records for {department_code}.")
-        return research_data
+
+        compiled_interests = compile_interests(research_data)
+        return {
+            "research_data": research_data,
+            "compiled_interests": compiled_interests
+        }
 
     except asyncio.TimeoutError:
         logger.error(f"Research extraction timed out for department: {department_code}")
