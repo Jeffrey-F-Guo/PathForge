@@ -7,7 +7,7 @@ import json
 from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from shared_utils import supa_read 
+from db_writer import supa_read 
 
 load_dotenv()
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")

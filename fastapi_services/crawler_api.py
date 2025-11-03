@@ -15,7 +15,8 @@ from research_extractor import extract_research_by_department
 from research_extractor import compile_interests
 from events_extractor import extract_events
 from courses_extractor import extract_course
-from shared_utils import csv_writer, save_to_storage
+from shared_utils import csv_writer
+from storage import save_to_storage
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
