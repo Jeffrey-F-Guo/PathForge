@@ -2,18 +2,12 @@
 crawl4ai
 python-dotenv
 pydantic
-prettytable
 fastapi
 uvicorn[standard]
 langchain
 langchain-google-genai
 langchain-ollama
-datetime
-python-dateutil
 numpy < 2
 beautifulsoup4
-psycopg2-binary
 
 
-httpx
-supabase
