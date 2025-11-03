@@ -19,7 +19,6 @@ from shared_utils import csv_writer
 from shared_utils import llm_init
 from shared_utils import llm_ainvoke_batch
 from research_extractor import config
-from shared_utils import write_to_db
 
 
 # Configure logging
@@ -154,7 +153,6 @@ async def extract_research_by_department(department_code: str, debug_mode: bool=
     """
 
     research_info = await extract_department_research(department_code, debug_mode)
-    # write_to_db(research_info)
     if research_info and write_to_csv:
         csv_writer(research_info, f"research_{department_code}.csv")
     return research_info

@@ -17,7 +17,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from shared_utils import csv_writer
 from shared_utils import llm_init
-from shared_utils import write_to_db
 from shared_utils import llm_ainvoke_batch
 from courses_extractor import config
 
