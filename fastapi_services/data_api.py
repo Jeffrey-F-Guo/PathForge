@@ -5,7 +5,6 @@ import logging
 import os
 import json
 from typing import List, Dict, Any, Optional
-import requests
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from shared_utils import supa_read 
