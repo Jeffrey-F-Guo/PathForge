@@ -158,5 +158,5 @@ async def extract_research_by_department(department_code: str, debug_mode: bool=
     return research_info
 
 if __name__ == "__main__":
-    res = asyncio.run(extract_research_by_department("CSCI", debug_mode=False, write_to_csv=True))
+    res = asyncio.run(extract_research_by_department("CSCI", debug_mode=True, write_to_csv=True))
     print(res)

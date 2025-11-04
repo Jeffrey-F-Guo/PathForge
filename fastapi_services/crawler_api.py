@@ -12,7 +12,6 @@ from pydantic import BaseModel
 
 # Import all extractor functions
 from research_extractor import extract_research_by_department
-from research_extractor import compile_interests
 from events_extractor import extract_events
 from courses_extractor import extract_course
 from shared_utils import csv_writer
