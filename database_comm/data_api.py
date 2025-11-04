@@ -8,6 +8,7 @@ from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from db_writer import supa_read 
+from data_processing import extract_data, load_data
 
 load_dotenv()
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
@@ -92,7 +93,10 @@ def write_to_db(payload: WebhookPayload, authorization: Optional[str] = Header(N
     # These functions would run synchronously here.
     try:
         # 1. Call your ETL function
-        # etl_data = my_etl_function(file_path)
+        raw_data = load_data(file_path)
+        professors, prof_interests = extract_data(raw_data)
+
+        
         
         # 2. Call your DB writer function
         # db_result = my_db_writer_function(etl_data)
