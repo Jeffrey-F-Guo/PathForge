@@ -149,35 +149,6 @@ GET /extract/all
 **Note:** These endpoints are primarily used by the frontend application, but can also be accessed directly for API integration or testing.
 
 
-## API Documentation
-
-Once the server is running, access the interactive API documentation:
-
-- **Swagger UI**: `http://localhost:8000/docs`
-- **ReDoc**: `http://localhost:8000/redoc`
-
-## Configuration
-
-### Environment Variables
-
-Create a `.env` file with the following variables:
-
-```env
-# API Configuration
-CORS_ORIGINS=http://localhost:3000
-LOG_LEVEL=INFO
-
-# Database (if applicable)
-DATABASE_URL=your_database_url
-```
-
-### Department Codes
-
-The system supports various department codes. Common examples:
-- `CSCI` - Computer Science
-- `DATA` - Data Science
-- `M/CS` - Mathematics/Computer Science
-
 ## Development
 
 ### Project Dependencies
@@ -189,7 +160,7 @@ The system supports various department codes. Common examples:
 - `Tailwind CSS` - Utility-first CSS framework
 - `Radix UI` - Accessible component primitives
 - `React Hook Form` - Form management
-- `Zod` - Schema validation
+
 
 **Backend:**
 - `crawl4ai` - Web crawling framework
@@ -211,62 +182,6 @@ The system supports various department codes. Common examples:
 2. Add pages in `Frontend/app/`
 3. Update API calls to connect to backend endpoints
 4. Follow the existing component patterns using Radix UI and Tailwind
-
-## Troubleshooting
-
-### Common Issues
-
-**Backend Issues:**
-
-*Import Errors*
-```bash
-# Ensure you're in the correct directory
-cd fastapi_services
-
-# Check Python path
-export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-```
-
-*CORS Issues*
-- Update `allow_origins` in `crawler_api.py` to match your frontend URL (default: `http://localhost:3000`)
-
-*Port Already in Use (Backend)*
-```bash
-# Find and kill process using port 8000
-lsof -ti:8000 | xargs kill -9
-```
-
-**Frontend Issues:**
-
-*Port Already in Use (Frontend)*
-```bash
-# Find and kill process using port 3000
-lsof -ti:3000 | xargs kill -9
-```
-
-*Module Not Found*
-```bash
-# Delete node_modules and reinstall
-cd Frontend
-rm -rf node_modules package-lock.json
-npm install
-```
-
-*Cannot Connect to Backend*
-- Ensure the backend server is running on `http://localhost:8000`
-- Check that CORS is properly configured in the backend
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-[Your License Here]
 
 ## Tech Stack
 
