@@ -48,7 +48,6 @@ crawler_scripts/
 │   ├── events_extractor/    # Events crawler
 │   └── shared_utils/        # Shared utilities and helpers
 ├── database_comm/           # Database communication layer
-└── web scraping/            # Legacy scraping scripts
 ```
 
 ## Setup
