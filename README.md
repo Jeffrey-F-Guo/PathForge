@@ -1,175 +1,287 @@
-PathForge
-A comprehensive CS career roadmap platform specifically designed for Western Washington University students, featuring intelligent prerequisite validation and automated resource sequencing to create academically sound academic plans.
-Project Overview
-PathForge differentiates itself from generic platforms like roadmap.sh through deep integration with WWU-specific data. The platform prevents students from creating academically impossible plans through intelligent prerequisite validation and provides pre-scraped, up-to-date university resources for a seamless user experience.
-Key Features
+# University Resource Crawler & Extractor
 
-Interactive Roadmap Builder: Drag-and-drop course planning with react-flow
-Real-time Prerequisite Validation: Python-based graph algorithms ensure academic feasibility
-WWU-Specific Data Integration: Automated scraping of courses, research labs, and campus events
-Career Path Explorer: Compare 12 different CS career paths with detailed progression timelines
-Curated Learning Resources: Hand-picked courses, books, and tools vetted by successful students
-Personalized Career Quiz: AI-powered recommendations based on student interests and goals
+A fullstack web application designed to crawl and extract structured information from university websites. The system combines a modern Next.js frontend with FastAPI-based backend microservices to provide a comprehensive platform for discovering and exploring university resources including research data, course information, and campus events.
 
+## Features
 
-Backend Architecture
-FastAPI Microservice (Python)
-Handles all web scraping and data extraction:
+### Frontend
+- **Modern Next.js Application**
+  - Built with Next.js 16 and React 19
+  - Responsive UI with Tailwind CSS
+  - Component library using Radix UI
+  - Form handling with React Hook Form
+  - Type-safe with TypeScript
+  - Dark mode support
 
-Research Extractor: Scrapes faculty research information by department
-Events Extractor: Crawls campus events with deep link following
-Courses Extractor: Extracts course catalogs with prerequisites and descriptions
-Tech Stack:
+### Backend
+- **Multi-Source Data Extraction**
+  - Faculty research information by department
+  - Course catalogs and descriptions
+  - University events and schedules
+  - Customizable extraction patterns
 
-Crawl4AI with Chromium for web scraping
-Pydantic for data validation
-LangChain + Google Gemini for LLM-based extraction
-BeautifulSoup for HTML parsing
+- **FastAPI Microservices Architecture**
+  - RESTful API endpoints for each data type
+  - Asynchronous processing for efficient crawling
+  - CORS-enabled for frontend integration
+  - Health monitoring and logging
 
-Database: PostgreSQL via Supabase (hosted)
-API Layer: RESTful endpoints for resource access
-ETL Pipeline: Webhook-triggered processing of scraped data
-Models: Research labs, courses, events
+- **Data Processing Pipeline**
+  - CSV export functionality
+  - JSON storage capabilities
+  - Batch processing support
+  - Data validation and cleaning
 
-Deployment
+## Project Structure
 
-Platform: AWS EC2 (t3.small/medium)
-Containerization: Docker
-Scheduled Crawling: Cron jobs for weekly data updates
-Storage: Supabase for database and file storage
+```
+crawler_scripts/
+├── Frontend/                # Next.js frontend application
+│   ├── app/                 # Next.js app directory
+│   ├── components/          # React components
+│   ├── lib/                 # Utility functions
+│   └── public/              # Static assets
+├── fastapi_services/        # FastAPI backend microservices
+│   ├── crawler_api.py       # Main API server
+│   ├── research_extractor/  # Faculty research crawler
+│   ├── courses_extractor/   # Course information crawler
+│   ├── events_extractor/    # Events crawler
+│   └── shared_utils/        # Shared utilities and helpers
+├── database_comm/           # Database communication layer
+└── web scraping/            # Legacy scraping scripts
+```
 
-🚀 Getting Started
-Prerequisites
+## Setup
 
-Node.js 18+ (for frontend)
-Python 3.11+ (for backend services)
-PostgreSQL (or Supabase account)
-Docker (optional, for deployment)
+### Prerequisites
 
-Frontend Setup
-bashcd Frontend
-npm install
-npm run dev
-The application will be available at http://localhost:3000
-FastAPI Microservice Setup
-bashcd fastapi_services
-pip install -r crawl_requirements.txt
-crawl4ai-setup
+- Python 3.8+
+- Node.js 18+ and npm
 
-# Set up environment variables
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd crawler_scripts
+```
+
+2. **Backend Setup**
+
+Create and activate virtual environment:
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+Install Python dependencies:
+```bash
+pip install -r fastapi_services/crawl_requirements.txt
+pip install -r database_comm/data_requirements.txt
+```
+
+Configure environment variables:
+```bash
 cp .env.example .env
-# Add your GOOGLE_API_KEY and SUPABASE credentials
-
-# Run the service
-uvicorn crawler_api:app --reload --port 8000
-Django Backend Setup
-bashcd college_planner
-pip install -r requirements.txt
-
-# Set up database
-python manage.py migrate
-
-# Run development server
-python manage.py runserver 8001
+# Edit .env with your configuration
 ```
 
-## 📡 API Endpoints
+3. **Frontend Setup**
 
-### FastAPI Microservice (`http://localhost:8000`)
-
-- `GET /health` - Health check
-- `GET /extract/research/{department_code}` - Extract faculty research for a department
-- `GET /extract/events` - Extract campus events
-- `GET /extract/courses/{department_code}` - Extract course catalog
-- `GET /extract/all` - Run all extractors (for scheduled jobs)
-
-### Django API (`http://localhost:8001`)
-
-- `GET /api/health/` - Health check (includes microservice status)
-- `GET /api/research/{department}/` - Get research data
-- `GET /api/course/{department}/` - Get course data
-- `GET /api/events/` - Get events data
-
-## 🗂️ Project Structure
+Navigate to frontend directory and install dependencies:
+```bash
+cd Frontend
+npm install
 ```
-pathforge/
-├── Frontend/                    # Next.js frontend
-│   ├── app/                    # App router pages
-│   │   ├── landing.tsx        # Landing page
-│   │   ├── paths/             # Career paths
-│   │   ├── quiz/              # Career quiz
-│   │   ├── resources/         # Resource browser
-│   │   └── roadmap/           # Roadmap builder
-│   ├── components/            # Reusable components
-│   └── lib/                   # Data and utilities
-│
-├── fastapi_services/          # Web scraping microservice
-│   ├── research_extractor/   # Faculty research scraper
-│   ├── events_extractor/     # Campus events scraper
-│   ├── courses_extractor/    # Course catalog scraper
-│   ├── shared_utils/         # Common utilities
-│   └── crawler_api.py        # FastAPI application
-│
-└── college_planner/          # Django backend
-    ├── planner/              # Main app
-    │   ├── models.py        # Database models
-    │   ├── views.py         # API endpoints
-    │   └── services/        # Business logic
-    └── manage.py
-🔧 Technology Stack
-Frontend
 
-Framework: Next.js 14 with App Router
-Language: TypeScript
-Styling: Tailwind CSS with custom design system
-UI Components: shadcn/ui
-Visualization: react-flow (for roadmaps)
-Icons: Lucide React
+## Usage
 
-Backend
+### Running the Full Application
 
-Web Scraping: Crawl4AI, BeautifulSoup4
-API Framework: FastAPI (microservice), Django (main backend)
-Database: PostgreSQL (via Supabase)
-LLM Integration: LangChain + Google Gemini 2.5 Flash
-Validation: Pydantic
-HTTP Client: httpx
+For the complete fullstack experience, you need to run both the frontend and backend:
 
-DevOps
+**Terminal 1 - Start the Backend API:**
+```bash
+cd fastapi_services
+uvicorn crawler_api:app --reload --host 0.0.0.0 --port 8000
+```
 
-Deployment: AWS EC2 with Docker
-Scheduling: Cron jobs for weekly crawls
-Storage: Supabase Storage for scraped data
-Environment: python-dotenv for configuration
+The API will be available at `http://localhost:8000`
 
-🎨 Design Principles
+**Terminal 2 - Start the Frontend:**
+```bash
+cd Frontend
+npm run dev
+```
 
-User-Centric: Pre-scraped resources eliminate wait times
-WWU-Specific: Deep integration with university data sources
-Validated Paths: Graph-based prerequisite checking prevents impossible plans
-Clean & Modern: Warm color palette with professional card-based layouts
-Accessible: WCAG-compliant design with proper semantic HTML
+The application will be available at `http://localhost:3000`
 
-📊 Data Sources
+### API Endpoints (Backend Only)
 
-Course Catalogs: catalog.wwu.edu
-Faculty Research: Department websites (CS, DS, M/CS)
-Campus Events: win.wwu.edu/events
-Career Data: Curated internal database
+The backend provides the following REST API endpoints:
+
+#### Health Check
+```bash
+GET /health
+```
+
+#### Extract Research by Department
+```bash
+GET /extract/research/{department_code}
+# Example: GET /extract/research/CSCI
+```
+
+#### Extract Courses by Department
+```bash
+GET /extract/courses/{department_code}
+# Example: GET /extract/courses/MATH
+```
+
+#### Extract Events
+```bash
+GET /extract/events
+```
+
+#### Extract All Data
+```bash
+GET /extract/all
+```
+
+**Note:** These endpoints are primarily used by the frontend application, but can also be accessed directly for API integration or testing.
 
 
-👨‍💻 Development
-Built as both a practical tool for WWU students and a portfolio piece demonstrating full-stack development capabilities with:
+## API Documentation
 
-Modern React patterns and Next.js best practices
-Scalable microservice architecture
-AI-powered data extraction
-Real-world deployment experience with AWS
+Once the server is running, access the interactive API documentation:
 
-📝 License
-This project is currently unlicensed. All rights reserved.
-🙏 Acknowledgments
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
 
-Western Washington University for providing public data sources
-The CS department for inspiration and support
-Fellow students for feedback and testing
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file with the following variables:
+
+```env
+# API Configuration
+CORS_ORIGINS=http://localhost:3000
+LOG_LEVEL=INFO
+
+# Database (if applicable)
+DATABASE_URL=your_database_url
+```
+
+### Department Codes
+
+The system supports various department codes. Common examples:
+- `CSCI` - Computer Science
+- `DATA` - Data Science
+- `M/CS` - Mathematics/Computer Science
+
+## Development
+
+### Project Dependencies
+
+**Frontend:**
+- `Next.js 16` - React framework with App Router
+- `React 19` - UI library
+- `TypeScript` - Type safety
+- `Tailwind CSS` - Utility-first CSS framework
+- `Radix UI` - Accessible component primitives
+- `React Hook Form` - Form management
+- `Zod` - Schema validation
+
+**Backend:**
+- `crawl4ai` - Web crawling framework
+- `fastapi` - Web framework for APIs
+- `beautifulsoup4` - HTML parsing
+- `pydantic` - Data validation
+- `langchain` - LLM orchestration
+
+### Adding New Features
+
+**Backend - Adding New Extractors:**
+1. Create a new extractor module in `fastapi_services/`
+2. Implement the extraction logic
+3. Add endpoint in `crawler_api.py`
+4. Update configuration if needed
+
+**Frontend - Adding New Components:**
+1. Create components in `Frontend/components/`
+2. Add pages in `Frontend/app/`
+3. Update API calls to connect to backend endpoints
+4. Follow the existing component patterns using Radix UI and Tailwind
+
+## Troubleshooting
+
+### Common Issues
+
+**Backend Issues:**
+
+*Import Errors*
+```bash
+# Ensure you're in the correct directory
+cd fastapi_services
+
+# Check Python path
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+```
+
+*CORS Issues*
+- Update `allow_origins` in `crawler_api.py` to match your frontend URL (default: `http://localhost:3000`)
+
+*Port Already in Use (Backend)*
+```bash
+# Find and kill process using port 8000
+lsof -ti:8000 | xargs kill -9
+```
+
+**Frontend Issues:**
+
+*Port Already in Use (Frontend)*
+```bash
+# Find and kill process using port 3000
+lsof -ti:3000 | xargs kill -9
+```
+
+*Module Not Found*
+```bash
+# Delete node_modules and reinstall
+cd Frontend
+rm -rf node_modules package-lock.json
+npm install
+```
+
+*Cannot Connect to Backend*
+- Ensure the backend server is running on `http://localhost:8000`
+- Check that CORS is properly configured in the backend
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+[Your License Here]
+
+## Tech Stack
+
+**Frontend:**
+- [Next.js](https://nextjs.org/) - React framework
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Radix UI](https://www.radix-ui.com/) - Component library
+
+**Backend:**
+- [FastAPI](https://fastapi.tiangolo.com/) - Python web framework
+- [Crawl4AI](https://github.com/unclecode/crawl4ai) - Web crawling
+
+## Acknowledgments
+
+- Built with [Crawl4AI](https://github.com/unclecode/crawl4ai)
+- Backend powered by [FastAPI](https://fastapi.tiangolo.com/)
+- Frontend powered by [Next.js](https://nextjs.org/)
