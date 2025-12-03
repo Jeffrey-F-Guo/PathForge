@@ -9,6 +9,9 @@ from typing_extensions import TypedDict
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.ollama_client import OllamaClient
 
+
+# social media scrolling surfer
+
 class UserQuery(BaseModel):
     topic: str  # main subject/domain (e.g., "NBA", "restaurants", "stocks")
     tasks: List[str]  # specific pieces of info requested (e.g., ["scores", "player stats"])
